@@ -1,0 +1,46 @@
+#!/bin/bash
+
+# ANSI color codes
+WHITE='\033[0;37m'
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+BOLD_BLUE='\033[1;34m'
+NC='\033[0m' # No Color
+
+# Commands
+MAKE_CMD="make"
+
+# Command format
+COMMAND_FORMAT="  ${WHITE}${MAKE_CMD} ${GREEN}%-15s${NC}%s"
+
+write() {
+    if [ $# -eq 1 ]; then
+        echo -e "$1"
+    else
+        local color=$1
+        local text=$2
+        echo -e "${color}${text}${NC}"
+    fi
+}
+
+capture_commands() {
+    awk '/^[a-zA-Z0-9_.-]+:/ && !/^\.PHONY:/ {sub(/:$/, "", $1); printf "%s|%s\n", $1, (x ? x : ""); x=""} /^[#][ ]/ {sub(/^#[ ]?/, ""); x=$0}' Makefile
+}
+
+write_command() {
+    local cmd=$1
+    local description=$2
+    write "$(printf "$COMMAND_FORMAT" "$cmd" "$description")"
+}
+
+write_commands() {
+    local commands="$1"
+    write $BOLD_BLUE "Available commands:"
+    echo "$commands" | while IFS='|' read -r cmd description; do
+        write_command "$cmd" "$description"
+    done
+}
+
+commands=$(capture_commands)
+
+write_commands "$commands"
