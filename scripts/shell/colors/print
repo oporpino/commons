@@ -1,0 +1,75 @@
+#!/bin/bash
+
+source "$(dirname "$0")/colors"
+
+# Print functions
+print() {
+    local color="$1"
+    local text="$2"
+    echo -e "${color}${text}${NC}"
+}
+
+info() {
+    echo -e "${BOLD_BLUE}[INFO] $1${NC}"
+}
+
+success() {
+    echo -e "${BOLD_GREEN}[SUCCESS] $1${NC}"
+}
+
+warning() {
+    echo -e "${BOLD_YELLOW}[WARNING] $1${NC}"
+}
+
+error() {
+    echo -e "${BOLD_RED}[ERROR] $1${NC}"
+}
+
+# Format functions
+format_command() {
+    local cmd="$1"
+    local description="$2"
+    printf "  ${WHITE}%s ${GREEN}%-15s${NC}%s\n" "$cmd" "$description"
+}
+
+format_title() {
+    local title="$1"
+    print "$BOLD_BLUE" "\n$title"
+}
+
+format_subtitle() {
+    local subtitle="$1"
+    print "$BOLD_CYAN" "$subtitle"
+}
+
+format_code() {
+    local code="$1"
+    print "$BOLD_WHITE" "  $code"
+}
+
+# Box drawing
+draw_box() {
+    local text="$1"
+    local width=${2:-40}
+    local padding=$(( (width - ${#text}) / 2 ))
+
+    print "$BOLD_BLUE" "┌$(printf '─%.0s' $(seq 1 $width))┐"
+    print "$BOLD_BLUE" "│$(printf ' %.0s' $(seq 1 $padding))${BOLD_WHITE}$text$(printf ' %.0s' $(seq 1 $((width - padding - ${#text}))))${BOLD_BLUE}│"
+    print "$BOLD_BLUE" "└$(printf '─%.0s' $(seq 1 $width))┘"
+}
+
+# Progress bar
+progress_bar() {
+    local current="$1"
+    local total="$2"
+    local width=${3:-40}
+    local percentage=$((current * 100 / total))
+    local completed=$((width * current / total))
+    local remaining=$((width - completed))
+
+    printf "\r${BOLD_BLUE}["
+    printf "${BOLD_GREEN}%${completed}s" | tr " " "█"
+    printf "${BOLD_BLUE}%${remaining}s" | tr " " "░"
+    printf "] %d%%" $percentage
+    [ "$current" -eq "$total" ] && echo
+}
