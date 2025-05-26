@@ -37,23 +37,6 @@ print() {
   fi
 }
 
-print_dotted() {
-  print "$@"
-  local color_code
-  color_code=$(get_color_code "$PRINT_COLOR" "$PRINT_STYLE")
-  printf "${color_code}%.0s·${NC}" $(seq 1 $MAX_WIDTH)
-  new_line
-}
-
-print_lined() {
-  print "$@"
-
-  local color_code
-  color_code=$(get_color_code "$PRINT_COLOR" "$PRINT_STYLE")
-  printf "${color_code}%.0s─${NC}" $(seq 1 $MAX_WIDTH)
-  new_line
-}
-
 new_line() {
     echo
 }

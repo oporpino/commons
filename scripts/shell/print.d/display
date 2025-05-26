@@ -7,14 +7,14 @@ h1() {
 h2() {
     local text="› $1"
     new_line
-    print_lined cyan bold "$text"
+    underlined cyan bold "$text"
     new_line
 }
 
 h3() {
     local text="► $1"
     new_line
-    print_dotted blue bold "$text"
+    underdotted blue bold "$text"
     new_line
 }
 
@@ -52,5 +52,52 @@ bullet() {
     local text="• $1"
     new_line
     print blue bold "$text"
+    new_line
+}
+
+parse_underline_params() {
+    UNDERLINE_COLOR="blue"
+    UNDERLINE_SIZE=100
+    UNDERLINE_TEXT=""
+
+    local args=("$@")
+    local i=0
+
+    while [ $i -lt ${#args[@]} ]; do
+        case "${args[$i]}" in
+            blue|green|red|yellow|white|cyan|gray)
+                UNDERLINE_COLOR="${args[$i]}"
+                ;;
+            *)
+                if [[ "${args[$i]}" =~ ^[0-9]+$ ]]; then
+                    UNDERLINE_SIZE="${args[$i]}"
+                else
+                    UNDERLINE_TEXT="${args[$i]}"
+                fi
+                ;;
+        esac
+        ((i++))
+    done
+}
+
+underlined() {
+    parse_underline_params "$@"
+    print "$UNDERLINE_TEXT" "$UNDERLINE_COLOR" bold
+
+    local color_code
+    color_code=$(get_color_code "$UNDERLINE_COLOR" "bold")
+    local width=$(( (MAX_WIDTH * UNDERLINE_SIZE) / 100 ))
+    printf "${color_code}%.0s─${NC}" $(seq 1 $width)
+    new_line
+}
+
+underdotted() {
+    parse_underline_params "$@"
+    print "$UNDERLINE_TEXT" "$UNDERLINE_COLOR" bold
+
+    local color_code
+    color_code=$(get_color_code "$UNDERLINE_COLOR" "bold")
+    local width=$(( (MAX_WIDTH * UNDERLINE_SIZE) / 100 ))
+    printf "${color_code}%.0s·${NC}" $(seq 1 $width)
     new_line
 }
