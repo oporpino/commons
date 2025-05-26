@@ -22,8 +22,9 @@ process_submodules() {
         [ "$IS_COMMONS" = "true" ] && [ "$submodule" = ".commons" ] && continue
 
         if [ -d "$base_dir/$submodule" ]; then
-            arrow "Processing submodule"
-            print -i "Executing command $(code "$command") in $base_dir/$submodule"
+            print blue bold "Processing submodule"
+            print "Executing command $(code "$command") in $base_dir/$submodule"
+            new_line
             (cd "$base_dir/$submodule" && $command)
         fi
     done
@@ -32,16 +33,18 @@ process_submodules() {
 # Function to process parent directory
 process_parent() {
     local command="$1"
-    arrow "Processing parent directory"
-    print -i "Executing command $(code "$command") in $(basename $(cd .. && pwd))"
+    print blue bold "Processing parent directory"
+    print bold "Executing command $(code "$command") in $(basename $(cd .. && pwd))"
+    new_line
     (cd .. && $command)
 }
 
 # Function to process current directory
 process_current() {
     local command="$1"
-    arrow "Processing current directory"
-    print -i "Executing command $(code "$command") in $(basename $(pwd))"
+    print blue bold "Processing current directory"
+    print bold "Executing command $(code "$command") in $(basename $(pwd))"
+    new_line
     $command
 }
 
