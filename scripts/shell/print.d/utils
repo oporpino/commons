@@ -1,0 +1,82 @@
+#!/usr/bin/env bash
+
+source "$(dirname "$0")/colors/constants"
+
+get_color_code() {
+  local color="$1"
+  local style="${2:-plain}"  # se style for vazio, usa 'plain'
+  local color_code=""
+
+  case "${color}_${style}" in
+    blue_bold) color_code="$BOLD_BLUE" ;;
+    blue_bright) color_code="$BRIGHT_BLUE" ;;
+    blue_plain) color_code="$BLUE" ;;
+    green_bold) color_code="$BOLD_GREEN" ;;
+    green_bright) color_code="$BRIGHT_GREEN" ;;
+    green_plain) color_code="$GREEN" ;;
+    yellow_bold) color_code="$BOLD_YELLOW" ;;
+    yellow_bright) color_code="$BRIGHT_YELLOW" ;;
+    yellow_plain) color_code="$YELLOW" ;;
+    red_bold) color_code="$BOLD_RED" ;;
+    red_bright) color_code="$BRIGHT_RED" ;;
+    red_plain) color_code="$RED" ;;
+    white_bold) color_code="$BOLD_WHITE" ;;
+    white_bright) color_code="$BRIGHT_WHITE" ;;
+    white_plain) color_code="$WHITE" ;;
+    cyan_bold) color_code="$BOLD_CYAN" ;;
+    cyan_bright) color_code="$BRIGHT_CYAN" ;;
+    cyan_plain) color_code="$CYAN" ;;
+    gray_plain) color_code="$GRAY" ;;
+    bright_blue) color_code="$BRIGHT_BLUE" ;;
+    bright_green) color_code="$BRIGHT_GREEN" ;;
+    bright_yellow) color_code="$BRIGHT_YELLOW" ;;
+    bright_red) color_code="$BRIGHT_RED" ;;
+    bright_magenta) color_code="$BRIGHT_MAGENTA" ;;
+    bright_cyan) color_code="$BRIGHT_CYAN" ;;
+    bright_white) color_code="$BRIGHT_WHITE" ;;
+    bright_black) color_code="$BRIGHT_BLACK" ;;
+    *) color_code="" ;;
+  esac
+
+  echo -n "$color_code"
+}
+
+parse_print_args() {
+  PRINT_COLOR=""
+  PRINT_STYLE="plain"
+  PRINT_NL=1
+  PRINT_TEXT=""
+  PRINT_TAB=0
+  PRINT_INDENT=0
+
+  local args=("$@")
+  local i=0
+
+  while [ $i -lt ${#args[@]} ]; do
+    case "${args[$i]}" in
+      -n)
+        PRINT_NL=0
+        ;;
+      -t)
+        PRINT_TAB=1
+        PRINT_NL=0
+        ;;
+      -i)
+        PRINT_INDENT=1
+        ;;
+      blue|green|red|yellow|white|cyan|gray)
+        PRINT_COLOR="${args[$i]}"
+        ;;
+      bold|bright|plain)
+        PRINT_STYLE="${args[$i]}"
+        ;;
+      *)
+        PRINT_TEXT="${PRINT_TEXT} ${args[$i]}"
+        ;;
+    esac
+    ((i++))
+  done
+
+  # Remove leading space
+  PRINT_TEXT="${PRINT_TEXT# }"
+}

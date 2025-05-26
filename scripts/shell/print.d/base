@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+
+# Constants
+export MAX_WIDTH=80
+export TAB_WIDTH=20
+export INDENT_WIDTH=2
+
+# Print functions
+print() {
+  parse_print_args "$@"
+  local color_code
+  color_code=$(get_color_code "$PRINT_COLOR" "$PRINT_STYLE")
+
+  if [ "$PRINT_TAB" -eq 1 ]; then
+    printf -v PRINT_TEXT "%s%*s" "$PRINT_TEXT" $((TAB_WIDTH - ${#PRINT_TEXT})) ""
+  fi
+
+  if [ "$PRINT_INDENT" -eq 1 ]; then
+    PRINT_TEXT="$(printf "%${INDENT_WIDTH}s" "")$PRINT_TEXT"
+  fi
+
+  if [ "$PRINT_NL" -eq 0 ]; then
+    echo -en "${color_code}${PRINT_TEXT}${NC}"
+  else
+    echo -e "${color_code}${PRINT_TEXT}${NC}"
+  fi
+}
+
+print_dotted() {
+  print "$@"
+  local color_code
+  color_code=$(get_color_code "$PRINT_COLOR" "$PRINT_STYLE")
+  printf "${color_code}%.0s·${NC}" $(seq 1 $MAX_WIDTH)
+  new_line
+}
+
+print_lined() {
+  print "$@"
+
+  local color_code
+  color_code=$(get_color_code "$PRINT_COLOR" "$PRINT_STYLE")
+  printf "${color_code}%.0s─${NC}" $(seq 1 $MAX_WIDTH)
+  new_line
+}
+
+new_line() {
+    echo
+}
+

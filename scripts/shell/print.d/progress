@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+# Progress bar
+print_progress() {
+    local current="$1"
+    local total="$2"
+    local width=${3:-$MAX_WIDTH}
+    local percentage=$((current * 100 / total))
+    # Subtract 7 to account for "[", "]", " 100%" and spaces
+    local bar_width=$((width - 7))
+    local completed=$((bar_width * current / total))
+    local remaining=$((bar_width - completed))
+
+    print -n blue bold "\r["
+    print -n green bold "$(printf "%${completed}s" | tr " " "█")"
+    print -n blue bold "$(printf "%${remaining}s" | tr " " "░")"
+    print -n blue bold "] "
+    print -n blue bold "${percentage}%"
+    [ "$current" -eq "$total" ] && print blue bold ""
+}

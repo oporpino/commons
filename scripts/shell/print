@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+source "$(dirname "$0")/print.d/base"
+source "$(dirname "$0")/print.d/boxes"
+source "$(dirname "$0")/print.d/utils"
+source "$(dirname "$0")/print.d/display"
+source "$(dirname "$0")/print.d/progress"

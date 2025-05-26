@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+# Box drawing
+print_box() {
+    local text="$1"
+    local width=${2:-$MAX_WIDTH}
+    local box_width=$((width - 2))
+    local padding=$(( (box_width - ${#text}) / 2 ))
+    local right_padding=$((box_width - padding - ${#text}))
+
+    local top_border
+    top_border=$(printf '─%.0s' $(seq 1 $box_width))
+    local left_pad
+    left_pad=$(printf ' %.0s' $(seq 1 $padding))
+    local right_pad
+    right_pad=$(printf ' %.0s' $(seq 1 $right_padding))
+
+    print blue bold "┌${top_border}┐"
+    print -n blue bold "│${left_pad}"
+    print -n white bold "$text"
+    print blue bold "${right_pad}│"
+    print blue bold "└${top_border}┘"
+}
+
+print_double_box() {
+    local text="$1"
+    new_line
+    local box_width=$((MAX_WIDTH - 2))
+    # Remove color codes for length calculation
+    local clean_text=$(echo -e "$text" | sed 's/\x1B\[[0-9;]*[JKmsu]//g')
+    local text_length=${#clean_text}
+    local padding_left=1
+    local padding_right=$((box_width - text_length - padding_left))
+    print blue bold "╔$(printf '═%.0s' $(seq 1 $box_width))╗"
+    print -n blue bold "║"
+    printf "%${padding_left}s" ""
+    print -n white bold "$text"
+    printf "%${padding_right}s" ""
+    print blue bold "║"
+    print blue bold "╚$(printf '═%.0s' $(seq 1 $box_width))╝"
+    new_line
+}

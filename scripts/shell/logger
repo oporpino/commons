@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+source "$(dirname "$0")/print"
+
+info() {
+    print "$@" blue bold "[INFO] $1"
+}
+
+success() {
+    print "$@" green bold "[SUCCESS] $1"
+}
+
+warning() {
+    print "$@" yellow bold "[WARNING] $1"
+}
+
+error() {
+    print "$@" red bold "[ERROR] $1"
+}
+
+

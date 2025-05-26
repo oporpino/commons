@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+h1() {
+    print_double_box "$1"
+}
+
+h2() {
+    local text="› $1"
+    new_line
+    print_lined cyan bold "$text"
+    new_line
+}
+
+h3() {
+    local text="► $1"
+    new_line
+    print_dotted blue bold "$text"
+    new_line
+}
+
+hr() {
+    new_line
+    local line=""
+    for i in $(seq 1 $MAX_WIDTH); do
+        line="${line}·"
+    done
+    print gray "$line"
+    new_line
+}
+
+command() {
+    local cmd="$1"
+    local description="$2"
+    print -t -i green bold "$cmd"
+    print white plain "$description"
+}
+
+code() {
+    local code="$1"
+    print -n green bold "$code"
+}
+
+arrow() {
+    local text="$1"
+    new_line
+    print -n blue bold "► "
+    print white bold "$text"
+    new_line
+}
+
+bullet() {
+    local text="• $1"
+    new_line
+    print blue bold "$text"
+    new_line
+}
