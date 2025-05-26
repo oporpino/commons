@@ -1,0 +1,155 @@
+#!/usr/bin/env bash
+
+source "$(dirname "$0")/print"
+source "$(dirname "$0")/logger"
+
+# Exemplo de títulos e subtítulos
+h1 "TÍTULO 1"
+h2 "TÍTULO 2"
+h3 "TÍTULO 3"
+hr
+
+# Exemplo de mensagens
+h3 "MENSAGENS"
+print -i "$(info "Este é um exemplo de mensagem informativa")"
+print -i "$(success "Operação concluída com sucesso!")"
+print -i "$(warning "Atenção: este é um aviso importante")"
+print -i "$(error "Erro: algo deu errado na operação")"
+hr
+
+# Exemplo de comandos
+h3 "COMANDOS"
+command "make build" "Compila o projeto"
+command "make test" "Executa os testes"
+command "make clean" "Limpa os arquivos de build"
+hr
+
+# Exemplo de código
+h3 "CÓDIGO"
+print -i "Executando: $(code "git add .") no diretório atual"
+print -i "Rode: $(code "npm install") para instalar as dependências"
+print -i "Executando: $(code "docker-compose up") para iniciar o container"
+hr
+
+# Exemplo de caixa
+h3 "CAIXAS"
+
+print bold "Boxes Style"
+new_line
+
+box "Box padrão"
+box double "Box double"
+box dotted "Box dotted"
+
+new_line
+print bold "Boxes Alignment"
+new_line
+
+box center "Box center"
+box left "Box left"
+box right "Box right"
+
+new_line
+print bold "Boxes size"
+new_line
+
+box 30 "Box 30%"
+box 50 "Box 50%"
+box 70 "Box 70%"
+
+new_line
+print bold "Boxes colors"
+new_line
+
+box blue "Box blue"
+box green "Box green"
+box red "Box red"
+box yellow "Box yellow"
+box cyan "Box cyan"
+box gray "Box gray"
+
+new_line
+print bold "Boxes with colors and styles"
+new_line
+
+box red double "Box red double"
+box green dotted "Box green dotted"
+box yellow center 90 "Box yellow center 70%"
+box left double cyan 70 "Box left double cyan 70%"
+
+hr
+
+# Exemplo de cores básicas
+h3 "CORES"
+print -i green "Texto em verde"
+print -i blue "Texto em azul"
+print -i yellow "Texto em amarelo"
+print -i magenta "Texto em magenta"
+print -i cyan "Texto em ciano"
+hr
+
+# Exemplo de cores brilhantes
+h3 "CORES BRILHANTES"
+print -i red bright "Texto em vermelho brilhante"
+print -i green bright "Texto em verde brilhante"
+print -i blue bright "Texto em azul brilhante"
+print -i yellow bright "Texto em amarelo brilhante"
+print -i magenta bright "Texto em magenta brilhante"
+print -i cyan bright "Texto em ciano brilhante"
+hr
+
+# Exemplo de cores em negrito
+h3 "NEGRITO"
+print -i red bold "Texto em vermelho negrito"
+print -i green bold "Texto em verde negrito"
+print -i blue bold "Texto em azul negrito"
+hr
+
+h3 "UNDERLINES"
+underlined "large underline" yellow 90
+underlined "medium underline" green 70
+underlined "small underline" red 40
+
+new_line
+h3 "UNDERDOTTED"
+
+underdotted "large underdotted" yellow 90
+underdotted "medium underdotted" green 70
+underdotted "small underdotted" red 40
+
+new_line
+
+h3 "ARROWS"
+
+arrow "Default arrow (blue)"
+arrow red "Red colored arrow"
+arrow green "Green colored arrow"
+arrow yellow "Yellow colored arrow"
+
+arrow --all "All colored arrow"
+arrow --all red "All colored arrow (red)"
+arrow --all green "All colored arrow (green)"
+arrow --all yellow "All colored arrow (yellow)"
+
+new_line
+h3 "BULLETS"
+
+bullet "Default bullet (blue)"
+bullet red "Red colored bullet"
+bullet green "Green colored bullet"
+bullet yellow "Yellow colored bullet"
+
+bullet --all "All colored bullet"
+bullet --all red "All colored bullet (red)"
+bullet --all green "All colored bullet (green)"
+bullet --all yellow "All colored bullet (yellow)"
+
+# Exemplo de barra de progresso
+h3 "PROGRESSO"
+for i in {1..5}; do
+    print_progress $i 5
+    sleep 0.5
+done
+new_line
+
+hr

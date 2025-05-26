@@ -91,36 +91,16 @@ draw_dotted_box() {
 }
 
 parse_box_params() {
-    BOX_STYLE="single"
-    BOX_PERCENTAGE=100
-    BOX_ALIGNMENT="center"
-    BOX_TEXT=""
-    BOX_COLOR="blue"
+    local -A result
+    while IFS=: read -r key value; do
+        result["$key"]="$value"
+    done < <(parse_args --color "blue" --size "100" --style "single" --alignment "center" "$@")
 
-    local args=("$@")
-    local i=0
-
-    while [ $i -lt ${#args[@]} ]; do
-        case "${args[$i]}" in
-            left|right|center)
-                BOX_ALIGNMENT="${args[$i]}"
-                ;;
-            double|dotted)
-                BOX_STYLE="${args[$i]}"
-                ;;
-            blue|green|red|yellow|white|cyan|gray)
-                BOX_COLOR="${args[$i]}"
-                ;;
-            *)
-                if [[ "${args[$i]}" =~ ^[0-9]+$ ]]; then
-                    BOX_PERCENTAGE="${args[$i]}"
-                else
-                    BOX_TEXT="${args[$i]}"
-                fi
-                ;;
-        esac
-        ((i++))
-    done
+    BOX_COLOR="${result[color]}"
+    BOX_PERCENTAGE="${result[size]}"
+    BOX_TEXT="${result[text]}"
+    BOX_STYLE="${result[style]}"
+    BOX_ALIGNMENT="${result[alignment]}"
 }
 
 box() {

@@ -41,43 +41,68 @@ code() {
 }
 
 arrow() {
-    local text="$1"
-    new_line
-    print -n blue bold "► "
-    print white bold "$text"
-    new_line
+    local color="blue"
+    local text=""
+    local color_all=false
+
+    for arg in "$@"; do
+        case "$arg" in
+            --all)
+                color_all=true
+                ;;
+            blue|green|red|yellow|white|cyan|gray)
+                color="$arg"
+                ;;
+            *)
+                text="$arg"
+                ;;
+        esac
+    done
+
+    if [ "$color_all" = true ]; then
+        print "$color" bold "► $text"
+    else
+        print -n "$color" bold "► "
+        print white bold "$text"
+    fi
 }
 
 bullet() {
-    local text="• $1"
-    new_line
-    print blue bold "$text"
-    new_line
+    local color="blue"
+    local text=""
+    local color_all=false
+
+    for arg in "$@"; do
+        case "$arg" in
+            --all)
+                color_all=true
+                ;;
+            blue|green|red|yellow|white|cyan|gray)
+                color="$arg"
+                ;;
+            *)
+                text="$arg"
+                ;;
+        esac
+    done
+
+    if [ "$color_all" = true ]; then
+        print "$color" bold "• $text"
+    else
+        print -n "$color" bold "• "
+        print white bold "$text"
+    fi
 }
 
 parse_underline_params() {
-    UNDERLINE_COLOR="blue"
-    UNDERLINE_SIZE=100
-    UNDERLINE_TEXT=""
+    local -A result
+    while IFS=: read -r key value; do
+        result["$key"]="$value"
+    done < <(parse_args --color "blue" --size "100" "$@")
 
-    local args=("$@")
-    local i=0
-
-    while [ $i -lt ${#args[@]} ]; do
-        case "${args[$i]}" in
-            blue|green|red|yellow|white|cyan|gray)
-                UNDERLINE_COLOR="${args[$i]}"
-                ;;
-            *)
-                if [[ "${args[$i]}" =~ ^[0-9]+$ ]]; then
-                    UNDERLINE_SIZE="${args[$i]}"
-                else
-                    UNDERLINE_TEXT="${args[$i]}"
-                fi
-                ;;
-        esac
-        ((i++))
-    done
+    UNDERLINE_COLOR="${result[color]}"
+    UNDERLINE_SIZE="${result[size]}"
+    UNDERLINE_TEXT="${result[text]}"
 }
 
 underlined() {

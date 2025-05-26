@@ -41,42 +41,151 @@ get_color_code() {
   echo -n "$color_code"
 }
 
+parse_common_params() {
+    local color="$1"
+    local size="$2"
+    local text="$3"
+    shift 3
+
+    local args=("$@")
+    local i=0
+
+    while [ $i -lt ${#args[@]} ]; do
+        case "${args[$i]}" in
+            blue|green|red|yellow|white|cyan|gray)
+                color="${args[$i]}"
+                ;;
+            *)
+                if [[ "${args[$i]}" =~ ^[0-9]+$ ]]; then
+                    size="${args[$i]}"
+                else
+                    text="${args[$i]}"
+                fi
+                ;;
+        esac
+        ((i++))
+    done
+
+    echo "$color $size $text"
+}
+
+process_args() {
+    local args=("$@")
+    local i=0
+
+    while [ $i -lt ${#args[@]} ]; do
+        local arg="${args[$i]}"
+        case "$arg" in
+            blue|green|red|yellow|white|cyan|gray)
+                echo "color:$arg"
+                ;;
+            left|right|center)
+                echo "alignment:$arg"
+                ;;
+            double|dotted)
+                echo "style:$arg"
+                ;;
+            -n)
+                echo "nl:0"
+                ;;
+            -t)
+                echo "tab:1"
+                echo "nl:0"
+                ;;
+            -i)
+                echo "indent:1"
+                ;;
+            bold|bright|plain)
+                echo "style:$arg"
+                ;;
+            *)
+                if [[ "$arg" =~ ^[0-9]+$ ]]; then
+                    echo "size:$arg"
+                else
+                    echo "text:$arg"
+                fi
+                ;;
+        esac
+        ((i++))
+    done
+}
+
+parse_args() {
+    local -A defaults=(
+        ["color"]=""
+        ["style"]="plain"
+        ["nl"]="1"
+        ["text"]=""
+        ["tab"]="0"
+        ["indent"]="0"
+        ["size"]="100"
+        ["alignment"]="center"
+    )
+
+    # Processa os parâmetros nomeados
+    while [ $# -gt 0 ]; do
+        case "$1" in
+            --color) defaults["color"]="$2"; shift 2 ;;
+            --style) defaults["style"]="$2"; shift 2 ;;
+            --nl) defaults["nl"]="$2"; shift 2 ;;
+            --text) defaults["text"]="$2"; shift 2 ;;
+            --tab) defaults["tab"]="$2"; shift 2 ;;
+            --indent) defaults["indent"]="$2"; shift 2 ;;
+            --size) defaults["size"]="$2"; shift 2 ;;
+            --alignment) defaults["alignment"]="$2"; shift 2 ;;
+            *) break ;;
+        esac
+    done
+
+    # Processa os argumentos restantes
+    while IFS=: read -r key value; do
+        defaults["$key"]="$value"
+    done < <(process_args "$@")
+
+    # Retorna todos os valores
+    for key in "${!defaults[@]}"; do
+        echo "$key:${defaults[$key]}"
+    done
+}
+
 parse_print_args() {
-  PRINT_COLOR=""
-  PRINT_STYLE="plain"
-  PRINT_NL=1
-  PRINT_TEXT=""
-  PRINT_TAB=0
-  PRINT_INDENT=0
+    local -A result
+    while IFS=: read -r key value; do
+        result["$key"]="$value"
+    done < <(parse_args --style "plain" --nl "1" --tab "0" --indent "0" "$@")
 
-  local args=("$@")
-  local i=0
+    PRINT_COLOR="${result[color]}"
+    PRINT_STYLE="${result[style]}"
+    PRINT_NL="${result[nl]}"
+    PRINT_TEXT="${result[text]}"
+    PRINT_TAB="${result[tab]}"
+    PRINT_INDENT="${result[indent]}"
+}
 
-  while [ $i -lt ${#args[@]} ]; do
-    case "${args[$i]}" in
-      -n)
-        PRINT_NL=0
-        ;;
-      -t)
-        PRINT_TAB=1
-        PRINT_NL=0
-        ;;
-      -i)
-        PRINT_INDENT=1
-        ;;
-      blue|green|red|yellow|white|cyan|gray)
-        PRINT_COLOR="${args[$i]}"
-        ;;
-      bold|bright|plain)
-        PRINT_STYLE="${args[$i]}"
-        ;;
-      *)
-        PRINT_TEXT="${PRINT_TEXT} ${args[$i]}"
-        ;;
-    esac
-    ((i++))
-  done
+parse_color_size_text() {
+    local color="$1"
+    local size="$2"
+    local text="$3"
+    shift 3
 
-  # Remove leading space
-  PRINT_TEXT="${PRINT_TEXT# }"
+    local args=("$@")
+    local i=0
+
+    while [ $i -lt ${#args[@]} ]; do
+        case "${args[$i]}" in
+            blue|green|red|yellow|white|cyan|gray)
+                color="${args[$i]}"
+                ;;
+            *)
+                if [[ "${args[$i]}" =~ ^[0-9]+$ ]]; then
+                    size="${args[$i]}"
+                else
+                    text="${args[$i]}"
+                fi
+                ;;
+        esac
+        ((i++))
+    done
+
+    echo "$color $size $text"
 }
