@@ -1,7 +1,14 @@
 #!/usr/bin/env bash
 
+source "$(dirname "$0")/colors/constants"
+
 # Constants
-export MAX_WIDTH=80
+if [ -t 1 ]; then
+    export MAX_WIDTH=$(( $(stty size 2>/dev/null | cut -d' ' -f2 || echo 80) - 2 ))
+else
+    export MAX_WIDTH=78
+fi
+
 export TAB_WIDTH=20
 export INDENT_WIDTH=2
 
