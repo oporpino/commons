@@ -3,8 +3,12 @@
 source "$(dirname "$0")/colors/constants"
 
 # Constants
+get_terminal_width() {
+    stty size 2>/dev/null | cut -d' ' -f2 || echo 80
+}
+
 if [ -t 1 ]; then
-    export MAX_WIDTH=$(( $(stty size 2>/dev/null | cut -d' ' -f2 || echo 80) - 2 ))
+    export MAX_WIDTH=$(( $(get_terminal_width) - 2 ))
 else
     export MAX_WIDTH=78
 fi

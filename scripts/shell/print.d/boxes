@@ -1,42 +1,164 @@
 #!/usr/bin/env bash
 
-# Box drawing
-print_box() {
+# Box drawing helpers
+get_box_chars() {
+    local style="$1"
+    case "$style" in
+        double)
+            echo "╔╗║╚╝═"
+            ;;
+        dotted)
+            echo "┌┐│└┘·"
+            ;;
+        *)
+            echo "┌┐│└┘─"
+            ;;
+    esac
+}
+
+draw_box_line() {
+    local char="$1"
+    local width="$2"
+    local color="$3"
+    local style="$4"
+    printf "${color}%.0s${char}${NC}" $(seq 1 $width)
+}
+
+draw_single_box() {
     local text="$1"
-    local width=${2:-$MAX_WIDTH}
+    local box_width="$2"
+    local padding="$3"
+    local right_padding="$4"
+    local color="$5"
+
+    print -n "$color" bold "┌"
+    print -n "$color" bold "$(printf '─%.0s' $(seq 1 $box_width))"
+    print "$color" bold "┐"
+
+    print -n "$color" bold "│"
+    printf "%${padding}s" ""
+    print -n "$color" bold "$text"
+    printf "%${right_padding}s" ""
+    print "$color" bold "│"
+
+    print -n "$color" bold "└"
+    print -n "$color" bold "$(printf '─%.0s' $(seq 1 $box_width))"
+    print "$color" bold "┘"
+}
+
+draw_double_box() {
+    local text="$1"
+    local box_width="$2"
+    local padding="$3"
+    local right_padding="$4"
+    local color="$5"
+
+    print -n "$color" bold "╔"
+    print -n "$color" bold "$(printf '═%.0s' $(seq 1 $box_width))"
+    print "$color" bold "╗"
+
+    print -n "$color" bold "║"
+    printf "%${padding}s" ""
+    print -n "$color" bold "$text"
+    printf "%${right_padding}s" ""
+    print "$color" bold "║"
+
+    print -n "$color" bold "╚"
+    print -n "$color" bold "$(printf '═%.0s' $(seq 1 $box_width))"
+    print "$color" bold "╝"
+}
+
+draw_dotted_box() {
+    local text="$1"
+    local box_width="$2"
+    local padding="$3"
+    local right_padding="$4"
+    local color="$5"
+
+    print -n "$color" bold "┌"
+    print -n "$color" bold "$(printf '·%.0s' $(seq 1 $box_width))"
+    print "$color" bold "┐"
+
+    print -n "$color" bold "│"
+    printf "%${padding}s" ""
+    print -n "$color" bold "$text"
+    printf "%${right_padding}s" ""
+    print "$color" bold "│"
+
+    print -n "$color" bold "└"
+    print -n "$color" bold "$(printf '·%.0s' $(seq 1 $box_width))"
+    print "$color" bold "┘"
+}
+
+parse_box_params() {
+    BOX_STYLE="single"
+    BOX_PERCENTAGE=100
+    BOX_ALIGNMENT="center"
+    BOX_TEXT=""
+    BOX_COLOR="blue"
+
+    local args=("$@")
+    local i=0
+
+    while [ $i -lt ${#args[@]} ]; do
+        case "${args[$i]}" in
+            left|right|center)
+                BOX_ALIGNMENT="${args[$i]}"
+                ;;
+            double|dotted)
+                BOX_STYLE="${args[$i]}"
+                ;;
+            blue|green|red|yellow|white|cyan|gray)
+                BOX_COLOR="${args[$i]}"
+                ;;
+            *)
+                if [[ "${args[$i]}" =~ ^[0-9]+$ ]]; then
+                    BOX_PERCENTAGE="${args[$i]}"
+                else
+                    BOX_TEXT="${args[$i]}"
+                fi
+                ;;
+        esac
+        ((i++))
+    done
+}
+
+box() {
+    parse_box_params "$@"
+
+    # Calculate dimensions
+    local width=$(( (MAX_WIDTH * BOX_PERCENTAGE) / 100 ))
     local box_width=$((width - 2))
-    local padding=$(( (box_width - ${#text}) / 2 ))
-    local right_padding=$((box_width - padding - ${#text}))
 
-    local top_border
-    top_border=$(printf '─%.0s' $(seq 1 $box_width))
-    local left_pad
-    left_pad=$(printf ' %.0s' $(seq 1 $padding))
-    local right_pad
-    right_pad=$(printf ' %.0s' $(seq 1 $right_padding))
+    # Calculate padding based on alignment
+    local padding
+    local right_padding
+    case "$BOX_ALIGNMENT" in
+        left)
+            padding=1
+            right_padding=$((box_width - ${#BOX_TEXT} - padding))
+            ;;
+        right)
+            right_padding=1
+            padding=$((box_width - ${#BOX_TEXT} - right_padding))
+            ;;
+        *)
+            padding=$(( (box_width - ${#BOX_TEXT}) / 2 ))
+            right_padding=$((box_width - padding - ${#BOX_TEXT}))
+            ;;
+    esac
 
-    print blue bold "┌${top_border}┐"
-    print -n blue bold "│${left_pad}"
-    print -n white bold "$text"
-    print blue bold "${right_pad}│"
-    print blue bold "└${top_border}┘"
+    # Draw box based on style
+    case "$BOX_STYLE" in
+        double)
+            draw_double_box "$BOX_TEXT" "$box_width" "$padding" "$right_padding" "$BOX_COLOR"
+            ;;
+        dotted)
+            draw_dotted_box "$BOX_TEXT" "$box_width" "$padding" "$right_padding" "$BOX_COLOR"
+            ;;
+        *)
+            draw_single_box "$BOX_TEXT" "$box_width" "$padding" "$right_padding" "$BOX_COLOR"
+            ;;
+    esac
 }
 
-print_double_box() {
-    local text="$1"
-    new_line
-    local box_width=$((MAX_WIDTH - 2))
-    # Remove color codes for length calculation
-    local clean_text=$(echo -e "$text" | sed 's/\x1B\[[0-9;]*[JKmsu]//g')
-    local text_length=${#clean_text}
-    local padding_left=1
-    local padding_right=$((box_width - text_length - padding_left))
-    print blue bold "╔$(printf '═%.0s' $(seq 1 $box_width))╗"
-    print -n blue bold "║"
-    printf "%${padding_left}s" ""
-    print -n white bold "$text"
-    printf "%${padding_right}s" ""
-    print blue bold "║"
-    print blue bold "╚$(printf '═%.0s' $(seq 1 $box_width))╝"
-    new_line
-}

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 h1() {
-    print_double_box "$1"
+    box left blue "$1"
 }
 
 h2() {
