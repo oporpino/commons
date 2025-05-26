@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # ANSI color codes
 export BLACK='\033[0;30m'
@@ -38,4 +38,3 @@ export INFO="${BOLD_BLUE}INFO${NC}"
 export SUCCESS="${BOLD_GREEN}SUCCESS${NC}"
 export WARNING="${BOLD_YELLOW}WARNING${NC}"
 export ERROR="${BOLD_RED}ERROR${NC}"
-
