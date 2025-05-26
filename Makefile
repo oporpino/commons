@@ -1,4 +1,4 @@
-.PHONY: git.add git.commit git.pull git.update git.status
+.PHONY: git.add git.commit git.pull git.update git.status help
 
 # Detect if we're running from inside .commons or from root
 IS_COMMONS := $(shell basename $$(pwd) | grep -q "^.commons$$" && echo "true" || echo "false")
@@ -41,4 +41,12 @@ ifeq ($(IS_COMMONS),true)
 	@bash scripts/make/git/status
 else
 	@bash .commons/scripts/make/git/status
+endif
+
+# Show help
+help:
+ifeq ($(IS_COMMONS),true)
+	@bash scripts/make/help
+else
+	@bash .commons/scripts/make/help
 endif
