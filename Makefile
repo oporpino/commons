@@ -6,7 +6,7 @@ IS_COMMONS := $(shell basename $$(pwd) | grep -q "^.commons$$" && echo "true" ||
 # Add files to git in main project and submodules
 git.add:
 ifeq ($(IS_COMMONS),true)
-	@scripts/make/git/add
+	@bash scripts/make/git/add
 else
-	@.commons/scripts/make/git/add
+	@bash .commons/scripts/make/git/add
 endif

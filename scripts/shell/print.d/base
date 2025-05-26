@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-source "$(dirname "$0")/colors/constants"
-
 # Constants
 get_terminal_width() {
     stty size 2>/dev/null | cut -d' ' -f2 || echo 80

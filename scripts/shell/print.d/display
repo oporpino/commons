@@ -1,20 +1,21 @@
 #!/usr/bin/env bash
 
 h1() {
-    box left blue "$1"
+    box left "$1"
+    new_line
 }
 
 h2() {
     local text="› $1"
     new_line
-    underlined cyan bold "$text"
+    underlined "$text"
     new_line
 }
 
 h3() {
     local text="► $1"
     new_line
-    underdotted blue bold "$text"
+    underdotted "$text"
     new_line
 }
 

@@ -12,8 +12,8 @@ hr
 # Exemplo de mensagens
 h3 "MENSAGENS"
 print -i "$(info "Este é um exemplo de mensagem informativa")"
-print -i "$(success "Operação concluída com sucesso!")"
 print -i "$(warning "Atenção: este é um aviso importante")"
+print -i "$(success "Operação concluída com sucesso!")"
 print -i "$(error "Erro: algo deu errado na operação")"
 hr
 

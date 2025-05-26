@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 
-source "$(dirname "$0")/print.d/base"
-source "$(dirname "$0")/print.d/boxes"
-source "$(dirname "$0")/print.d/utils"
-source "$(dirname "$0")/print.d/display"
-source "$(dirname "$0")/print.d/progress"
+# Get the absolute path of the print script directory
+PRINT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+source "$PRINT_DIR/colors/constants"
+source "$PRINT_DIR/print.d/base"
+source "$PRINT_DIR/print.d/boxes"
+source "$PRINT_DIR/print.d/utils"
+source "$PRINT_DIR/print.d/display"
+source "$PRINT_DIR/print.d/progress"

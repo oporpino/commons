@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
 
-source "$(dirname "$0")/print"
+# Get the absolute path of the logger script directory
+LOGGER_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+source "$LOGGER_DIR/print"
 
 info() {
-    print "$@" blue bold "[INFO] $1"
+    print "$@" blue "[INFO] $1"
 }
 
 success() {
@@ -11,7 +14,7 @@ success() {
 }
 
 warning() {
-    print "$@" yellow bold "[WARNING] $1"
+    print "$@" yellow "[WARNING] $1"
 }
 
 error() {

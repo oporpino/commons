@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-source "$(dirname "$0")/colors/constants"
-
 get_color_code() {
   local color="$1"
   local style="${2:-plain}"  # se style for vazio, usa 'plain'
@@ -35,38 +33,16 @@ get_color_code() {
     bright_cyan) color_code="$BRIGHT_CYAN" ;;
     bright_white) color_code="$BRIGHT_WHITE" ;;
     bright_black) color_code="$BRIGHT_BLACK" ;;
+    bold_blue) color_code="$BOLD_BLUE" ;;
+    bold_green) color_code="$BOLD_GREEN" ;;
+    bold_yellow) color_code="$BOLD_YELLOW" ;;
+    bold_red) color_code="$BOLD_RED" ;;
+    bold_white) color_code="$BOLD_WHITE" ;;
+    bold_cyan) color_code="$BOLD_CYAN" ;;
     *) color_code="" ;;
   esac
 
   echo -n "$color_code"
-}
-
-parse_common_params() {
-    local color="$1"
-    local size="$2"
-    local text="$3"
-    shift 3
-
-    local args=("$@")
-    local i=0
-
-    while [ $i -lt ${#args[@]} ]; do
-        case "${args[$i]}" in
-            blue|green|red|yellow|white|cyan|gray)
-                color="${args[$i]}"
-                ;;
-            *)
-                if [[ "${args[$i]}" =~ ^[0-9]+$ ]]; then
-                    size="${args[$i]}"
-                else
-                    text="${args[$i]}"
-                fi
-                ;;
-        esac
-        ((i++))
-    done
-
-    echo "$color $size $text"
 }
 
 process_args() {
@@ -76,7 +52,7 @@ process_args() {
     while [ $i -lt ${#args[@]} ]; do
         local arg="${args[$i]}"
         case "$arg" in
-            blue|green|red|yellow|white|cyan|gray)
+            blue|green|red|yellow|white|cyan|gray|magenta|black)
                 echo "color:$arg"
                 ;;
             left|right|center)
@@ -160,32 +136,4 @@ parse_print_args() {
     PRINT_TEXT="${result[text]}"
     PRINT_TAB="${result[tab]}"
     PRINT_INDENT="${result[indent]}"
-}
-
-parse_color_size_text() {
-    local color="$1"
-    local size="$2"
-    local text="$3"
-    shift 3
-
-    local args=("$@")
-    local i=0
-
-    while [ $i -lt ${#args[@]} ]; do
-        case "${args[$i]}" in
-            blue|green|red|yellow|white|cyan|gray)
-                color="${args[$i]}"
-                ;;
-            *)
-                if [[ "${args[$i]}" =~ ^[0-9]+$ ]]; then
-                    size="${args[$i]}"
-                else
-                    text="${args[$i]}"
-                fi
-                ;;
-        esac
-        ((i++))
-    done
-
-    echo "$color $size $text"
 }
