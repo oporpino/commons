@@ -1,4 +1,14 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+# Get the absolute path of the script directory
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Find .commons directory by going up until we find it
+COMMONS_ROOT="$(cd "$SCRIPT_DIR" && while [ ! -d ".commons" ] && [ "$(pwd)" != "/" ]; do cd ..; done; pwd)"
+
+# Source print functions with correct path
+source "$COMMONS_ROOT/.commons/scripts/shell/print"
+source "$COMMONS_ROOT/.commons/scripts/shell/logger"
 
 # ANSI color codes
 WHITE='\033[0;37m'
@@ -11,7 +21,7 @@ NC='\033[0m' # No Color
 MAKE_CMD="make"
 
 # Command format
-COMMAND_FORMAT="  ${WHITE}${MAKE_CMD} ${GREEN}%-15s${NC}%s"
+COMMAND_FORMAT="  $(code "make %-15s")%s"
 
 write() {
     if [ $# -eq 1 ]; then
@@ -27,17 +37,13 @@ capture_commands() {
     awk '/^[a-zA-Z0-9_.-]+:/ && !/^\.PHONY:/ {sub(/:$/, "", $1); printf "%s|%s\n", $1, (x ? x : ""); x=""} /^[#][ ]/ {sub(/^#[ ]?/, ""); x=$0}' Makefile
 }
 
-write_command() {
-    local cmd=$1
-    local description=$2
-    write "$(printf "$COMMAND_FORMAT" "$cmd" "$description")"
-}
 
 write_commands() {
     local commands="$1"
-    write $BOLD_BLUE "Available commands:"
+    h1 "Available Commands"
+
     echo "$commands" | while IFS='|' read -r cmd description; do
-        write_command "$cmd" "$description"
+        command "$cmd" "$description"
     done
 }
 
