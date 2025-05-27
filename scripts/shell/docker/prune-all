@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+# Import shell functions
+source "$(dirname "${BASH_SOURCE[0]}")/../all"
+
+h1 "Docker System Prune"
+
+h2 "Removing all unused containers"
+docker container prune -f
+hr
+
+h2 "Removing all unused images"
+docker image prune -af
+hr
+
+h2 "Removing all unused volumes"
+docker volume prune -f
+hr
+
+h2 "Removing all unused networks"
+docker network prune -f
+hr
+
+h2 "Removing all unused build cache"
+docker builder prune -af
+hr
+
+success "Docker System Cleanup Complete"
