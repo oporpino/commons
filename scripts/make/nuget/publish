@@ -1,0 +1,108 @@
+#!/bin/bash
+
+# Constants
+NUGET_SOURCE="https://api.nuget.org/v3/index.json"
+
+# Check if project name is provided and .env exists
+check_requirements() {
+    if [ -z "$1" ]; then
+        echo "Error: Project name is required"
+        exit 1
+    fi
+
+    if [ ! -f ".env" ]; then
+        echo "Error: .env file not found"
+        exit 1
+    fi
+}
+
+# Find project file
+find_project_file() {
+    local project_name=$1
+    local project_file=$(find . -name "${project_name}.csproj")
+
+    if [ -z "$project_file" ]; then
+        echo "Error: Project file not found for ${project_name}"
+        exit 1
+    fi
+
+    echo "$project_file"
+}
+
+# Get package ID from project file
+get_package_id() {
+    local project_file=$1
+    local package_id=$(grep -o "<PackageId>.*</PackageId>" "$project_file" | sed "s/<PackageId>\(.*\)<\/PackageId>/\1/")
+
+    if [ -z "$package_id" ]; then
+        echo "Error: PackageId not found in ${project_file}"
+        exit 1
+    fi
+
+    echo "$package_id"
+}
+
+# Get version from project file
+get_version() {
+    local project_file=$1
+    local version=$(grep -o "<Version>.*</Version>" "$project_file" | sed "s/<Version>\(.*\)<\/Version>/\1/")
+
+    if [ -z "$version" ]; then
+        echo "Error: Version not found in ${project_file}"
+        exit 1
+    fi
+
+    echo "$version"
+}
+
+# Check if version exists on NuGet
+check_version_exists() {
+    local package_id=$1
+    local version=$2
+
+    if dotnet nuget list "$package_id" --source "$NUGET_SOURCE" | grep -q "$version"; then
+        echo "Error: Version ${version} already exists on NuGet"
+        exit 1
+    fi
+}
+
+# Build project
+build_project() {
+    local project_file=$1
+    local project_dir=$(dirname "$project_file")
+
+    echo "Building project in ${project_dir}..."
+    cd "$project_dir" || exit 1
+    dotnet clean -c Release
+    dotnet build -c Release
+    cd - > /dev/null || exit 1
+}
+
+# Publish package
+publish_package() {
+    local package_id=$1
+    local version=$2
+    local project_dir=$3
+
+    echo "Publishing package ${package_id}.${version}..."
+    cd "$project_dir" || exit 1
+    echo "Pushing: ${project_dir}/bin/Release/${package_id}.${version}.nupkg ${NUGET_API_KEY} ${NUGET_SOURCE}"
+
+    dotnet nuget push "bin/Release/${package_id}.${version}.nupkg" --source "$NUGET_SOURCE" --api-key "$NUGET_API_KEY"
+
+    cd - > /dev/null || exit 1
+}
+
+# Main script
+check_requirements "$1"
+
+project_file=$(find_project_file "$1")
+package_id=$(get_package_id "$project_file")
+version=$(get_version "$project_file")
+project_dir=$(dirname "$project_file")
+
+source .env
+
+check_version_exists "$package_id" "$version"
+build_project "$project_file"
+publish_package "$package_id" "$version" "$project_dir"
