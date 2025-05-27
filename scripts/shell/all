@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# Get the absolute path of the all script directory
+ALL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Import logger functions
+source "$ALL_DIR/logger"
+
+# Import print functions
+source "$ALL_DIR/print"
