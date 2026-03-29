@@ -126,9 +126,5 @@ printf "> Pushing tag to origin...\n"
 git push origin "$NEW_VERSION"
 printf "${GREEN}  - Tag %s pushed${NC}\n" "$NEW_VERSION"
 
-printf "> Updating latest tag...\n"
-git tag -f latest
-git push origin latest --force
-printf "${GREEN}  - Tag latest updated${NC}\n"
-
 printf "\n${GREEN}> Release %s done!${NC}\n" "$NEW_VERSION"
+printf "${BLUE}  → GitHub Actions will run tests, build binaries, and update the latest tag.${NC}\n"
