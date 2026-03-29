@@ -8,4 +8,4 @@
 - sempre pergunte antes de commitar
 - nunca faça commit em arquivos que ainda não estiverem prontos
 - nunca faça nada que não foi solicitado
-- ao fazer uma alteração de regra de negócios, atualize o arquivo relacionado à mudança em `.project/docs`
+- ao fazer uma alteração de regra de negócios, atualize o arquivo relacionado à mudança em `docs/` 
