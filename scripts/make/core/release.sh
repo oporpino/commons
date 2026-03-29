@@ -46,7 +46,7 @@ fi
 printf "${GREEN}  - On main branch${NC}\n"
 
 printf "\n> Fetching latest from origin...\n"
-git fetch origin main --tags --prune
+git fetch origin main --tags --prune --force
 
 LOCAL=$(git rev-parse main)
 REMOTE=$(git rev-parse origin/main)
