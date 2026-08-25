@@ -1,0 +1,9 @@
+{
+  "name": "commons",
+  "version": "1.0.0",
+  "description": "Wehive shared skills and commands",
+  "author": {
+    "name": "wehive",
+    "email": "porpino@wehive.tech"
+  }
+}

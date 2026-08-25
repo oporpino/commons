@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SERVICE="${1:-database}"
+
+echo "Stopping $SERVICE..."
+docker compose stop "$SERVICE"
+
+echo "Removing $SERVICE container..."
+docker compose rm -f "$SERVICE"
+
+VOLUME=$(docker compose config --volumes | grep -E "^${SERVICE//-/_}_data$" || docker compose config --volumes | grep postgres_data | head -1)
+
+if [ -n "$VOLUME" ]; then
+  PROJECT=$(docker compose config --format json 2>/dev/null | python3 -c "import sys,json; print(json.load(sys.stdin)['name'])" 2>/dev/null || basename "$PWD")
+  FULL_VOLUME="${PROJECT}_${VOLUME}"
+  echo "Removing volume $FULL_VOLUME..."
+  docker volume rm -f "$FULL_VOLUME"
+else
+  echo "No volume found for $SERVICE"
+fi

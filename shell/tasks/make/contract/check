@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Usage: check <target1> [target2 ...]
+# Validates that all required Make targets are implemented.
+# Reports all missing targets at once.
+
+if [ $# -eq 0 ]; then
+  echo "Usage: $(basename "$0") <target1> [target2 ...]"
+  exit 1
+fi
+
+missing=()
+
+for t in "$@"; do
+  make -n _INTERFACE_SKIP=1 "$t" > /dev/null 2>&1 || missing+=("$t")
+done
+
+if [ ${#missing[@]} -gt 0 ]; then
+  red='\033[0;31m'
+  yellow='\033[0;33m'
+  cyan='\033[0;36m'
+  gray='\033[0;90m'
+  bold='\033[1m'
+  reset='\033[0m'
+
+  echo ""
+  echo -e "${red}${bold}❌ Targets obrigatórios não implementados:${reset}"
+  echo ""
+  for t in "${missing[@]}"; do
+    echo -e "   ${yellow}• ${t}${reset}"
+  done
+  echo ""
+  echo -e "${bold}Em ${cyan}.project/make/overrides.mk${reset}${bold}, implemente diretamente:${reset}"
+  echo ""
+  echo -e "   ${gray}# opção 2 — implementar na mão${reset}"
+  echo -e "   ${yellow}${missing[0]}:${reset}"
+  echo -e "   ${gray}  # implementação${reset}"
+  if [ ${#missing[@]} -gt 1 ]; then
+    echo ""
+    echo -e "   ${gray}# ... e os demais targets em falta acima${reset}"
+  fi
+  echo ""
+  exit 1
+fi

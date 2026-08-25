@@ -1,0 +1,19 @@
+services:
+  x-base:
+    build:
+      context: ${PROJECT_DIR:-${PWD:-.}}
+      dockerfile: ${COMMONS_DIR}/docker/Dockerfile
+      target: dev
+      additional_contexts:
+        commons-source: ${COMMONS_DIR}
+      args:
+        STACK:
+        STACK_VERSION:
+        CONTAINER_REGISTRY:
+    env_file:
+      - path: ${PROJECT_DIR:-${PWD:-.}}/.env
+        required: false
+    restart: "no"
+    volumes:
+      - ${PROJECT_DIR:-${PWD:-.}}:/source
+      - ${COMMONS_DIR}:/.commons

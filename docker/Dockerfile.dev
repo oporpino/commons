@@ -1,0 +1,69 @@
+# syntax=docker/dockerfile:1
+# check=skip=InvalidDefaultArgInFrom
+
+# ARGs used in FROM must all be declared before the first FROM
+ARG DISTRO=alpine
+ARG STACK
+ARG STACK_VERSION
+ARG REGISTRY_BASE=
+ARG _DEV_BASE=${REGISTRY_BASE:+${REGISTRY_BASE}${STACK}:${STACK_VERSION}-${DISTRO}.dev}
+ARG COMMONS=.commons
+ARG PROJECT=.
+
+FROM ${STACK}:${STACK_VERSION}-${DISTRO} AS base
+
+ARG DISTRO=alpine
+ARG STACK
+ARG COMMONS=.commons
+
+WORKDIR /source
+
+# System deps
+COPY ${COMMONS}/shell/setup/environment/distro/${DISTRO}/dev.sh /tmp/setup/environment/install-dev.sh
+RUN --mount=type=cache,target=/var/cache/apk \
+  chmod +x /tmp/setup/environment/install-dev.sh && /tmp/setup/environment/install-dev.sh
+
+# Non-root user for dev
+RUN addgroup -S developer && adduser -S developer -G developer -s /bin/zsh && \
+  chown -R developer:developer /source
+
+USER developer
+
+ENV EDITOR=vim
+
+# Commons first (changes rarely) — keeps oh-my-zsh and stack setup layers cached
+COPY --chown=developer:developer ${COMMONS}/ .commons/
+ENV COMMONS_DIR=/source/.commons
+
+# Install oh-my-zsh — only invalidated when .commons changes
+RUN chmod +x ${COMMONS_DIR}/shell/setup/environment/shared/powertools.sh && \
+  ${COMMONS_DIR}/shell/setup/environment/shared/powertools.sh
+
+# Stack-level setup — only invalidated when .commons changes
+RUN if [ -f ${COMMONS_DIR}/shell/setup/environment/distro/${DISTRO}/${STACK}/base.sh ]; then \
+  chmod +x ${COMMONS_DIR}/shell/setup/environment/distro/${DISTRO}/${STACK}/base.sh && \
+  ${COMMONS_DIR}/shell/setup/environment/distro/${DISTRO}/${STACK}/base.sh; \
+  fi
+
+ENV PATH="/home/developer/.local/bin:$PATH"
+
+# Use registry base if REGISTRY_BASE is set, otherwise use the local base stage
+FROM ${_DEV_BASE:-base} AS dev
+
+ARG PROJECT=.
+
+WORKDIR /source
+
+# Project code last (changes frequently)
+COPY --chown=developer:developer ${PROJECT}/ .
+
+# Project-level setup
+RUN if [ -d .project/shell/setup/environment ]; then \
+  find .project/shell/setup/environment -maxdepth 1 -type f -name '*.sh' -exec chmod +x {} +; \
+  for script in .project/shell/setup/environment/*.sh; do \
+    [ -e "$script" ] || continue; \
+    "$script"; \
+  done; \
+  fi
+
+CMD ["run/server"]

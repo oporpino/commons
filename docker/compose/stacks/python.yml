@@ -1,0 +1,18 @@
+services:
+  x-stack-base:
+    extends:
+      file: ${COMMONS_DIR}/docker/compose/stacks/_base.yml
+      service: x-base
+    build:
+      args:
+        STACK: python
+        STACK_VERSION: ${PYTHON_VERSION}
+    volumes:
+      - uv_cache:/root/.cache/uv
+      - venv:/source/.venv
+
+volumes:
+  uv_cache:
+    driver: local
+  venv:
+    driver: local

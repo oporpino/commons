@@ -1,0 +1,20 @@
+services:
+  x-stack-base:
+    extends:
+      file: ${COMMONS_DIR}/docker/compose/stacks/_base.yml
+      service: x-base
+    build:
+      args:
+        STACK: elixir
+        STACK_VERSION: ${ELIXIR_VERSION}
+    environment:
+      - MIX_ENV=dev
+    volumes:
+      - mix_deps:/source/deps
+      - mix_build:/source/_build
+
+volumes:
+  mix_deps:
+    driver: local
+  mix_build:
+    driver: local

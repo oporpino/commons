@@ -1,0 +1,19 @@
+services:
+  cache:
+    image: redis:7
+    command: redis-server --port ${CACHE_PORT}
+    ports:
+      - "${CACHE_PORT}:${CACHE_PORT}"
+    volumes:
+      - cache_data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli -p ${CACHE_PORT} ping | grep PONG"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
+
+volumes:
+  cache_data:
+    driver: local

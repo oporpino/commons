@@ -1,0 +1,15 @@
+services:
+  x-stack-base:
+    extends:
+      file: ${COMMONS_DIR}/docker/compose/stacks/_base.yml
+      service: x-base
+    build:
+      args:
+        STACK: ruby
+        STACK_VERSION: ${RUBY_VERSION}
+    volumes:
+      - bundle_cache:/usr/local/bundle
+
+volumes:
+  bundle_cache:
+    driver: local

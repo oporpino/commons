@@ -1,0 +1,15 @@
+services:
+  x-stack-base:
+    extends:
+      file: ${COMMONS_DIR}/docker/compose/stacks/_base.yml
+      service: x-base
+    build:
+      args:
+        STACK: node
+        STACK_VERSION: ${NODE_VERSION}
+    volumes:
+      - node_modules:/source/node_modules
+
+volumes:
+  node_modules:
+    driver: local

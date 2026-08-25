@@ -19,7 +19,7 @@
 ---
 
 ### CHECKLIST
-- [ ] Código testado localmente
+- [ ] Código testado em staging
 - [ ] Testes automáticos criados/atualizados para as mudanças
 - [ ] PRs pequenos e atômicos (um contexto: feature/bug/regra de negócio)
 - [ ] Commits atômicos com mensagens claras (max 60 chars)

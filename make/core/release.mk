@@ -1,5 +1,10 @@
-release: ## Release a new version
-	@bash .commons/scripts/make/core/release.sh
 
-release.patch: ## Release a new patch version
-	@bash .commons/scripts/make/core/release.sh --patch --auto-approve
+# aliases
+release: _release.create
+
+# release management
+_release.create:
+	@$(COMMONS_DIR)/shell/tasks/release/create.sh
+
+release.patch:
+	@$(COMMONS_DIR)/shell/tasks/release/create.sh --patch --auto-approve

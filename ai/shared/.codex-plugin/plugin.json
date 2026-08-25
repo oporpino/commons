@@ -1,0 +1,32 @@
+{
+  "name": "commons",
+  "version": "1.0.0",
+  "description": "WeHive shared skills and commands",
+  "author": {
+    "name": "wehive",
+    "email": "porpino@wehive.tech"
+  },
+  "keywords": [
+    "wehive",
+    "skills",
+    "coding"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "WeHive Commons",
+    "shortDescription": "Shared WeHive coding skills and workflows",
+    "longDescription": "Shared WeHive skills for planning, implementation, review, infrastructure, documentation, and delivery workflows.",
+    "developerName": "WeHive",
+    "category": "Coding",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Use WeHive skills for this change.",
+      "Plan this implementation with WeHive conventions."
+    ],
+    "brandColor": "#0F766E",
+    "screenshots": []
+  }
+}

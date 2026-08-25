@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cat \"${CLAUDE_PLUGIN_ROOT}/rules/shared.md\" \"${CLAUDE_PLUGIN_ROOT}/rules/git.md\" \"${CLAUDE_PLUGIN_ROOT}/rules/testing.md\" \"${CLAUDE_PLUGIN_ROOT}/rules/seeds.md\" 2>/dev/null || true"
+          }
+        ]
+      }
+    ]
+  }
+}

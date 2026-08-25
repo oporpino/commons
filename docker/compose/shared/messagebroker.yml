@@ -1,0 +1,25 @@
+services:
+  messagebroker:
+    image: rabbitmq:3.13-management-alpine
+    environment:
+      RABBITMQ_DEFAULT_USER: ${MESSAGEBROKER_USER:-guest}
+      RABBITMQ_DEFAULT_PASS: ${MESSAGEBROKER_PASSWORD:-guest}
+      RABBITMQ_DEFAULT_VHOST: ${MESSAGEBROKER_VHOST:-/}
+      RABBITMQ_NODE_PORT: ${MESSAGEBROKER_PORT:-5672}
+      RABBITMQ_MANAGEMENT_PORT: ${MESSAGEBROKER_MANAGEMENT_PORT:-15672}
+    ports:
+      - "${MESSAGEBROKER_PORT:-5672}:${MESSAGEBROKER_PORT:-5672}"
+      - "${MESSAGEBROKER_MANAGEMENT_PORT:-15672}:${MESSAGEBROKER_MANAGEMENT_PORT:-15672}"
+    volumes:
+      - messagebroker_data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
+
+volumes:
+  messagebroker_data:
+    driver: local

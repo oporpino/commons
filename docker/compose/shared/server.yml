@@ -1,0 +1,25 @@
+services:
+  server:
+    build:
+      context: ${PROJECT_DIR:-${PWD}}
+      dockerfile: ${COMMONS_DIR}/docker/Dockerfile
+      target: dev
+      additional_contexts:
+        commons-source: ${COMMONS_DIR}
+      args:
+        - DISTRO=alpine
+        - CONTAINER_REGISTRY=${CONTAINER_REGISTRY:-}
+    env_file:
+      - path: ${PROJECT_DIR:-${PWD}}/.env
+        required: false
+    ports:
+      - "${PORT}:${PORT}"
+    restart: on-failure
+    volumes:
+      - ${PROJECT_DIR:-${PWD}}:/source
+      - ${COMMONS_DIR}:/.commons
+      - dev_home:/home/developer
+
+volumes:
+  dev_home:
+    driver: local

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "wehive",
+  "description": "Wehive shared skills and commands",
+  "owner": {
+    "name": "wehive",
+    "email": "porpino@wehive.tech"
+  },
+  "plugins": [
+    {
+      "name": "commons",
+      "description": "Wehive shared skills and commands",
+      "source": "./shared"
+    }
+  ]
+}
