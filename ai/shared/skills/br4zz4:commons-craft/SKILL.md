@@ -1,5 +1,5 @@
 ---
-name: commons-craft
+name: br4zz4:commons-craft
 description: Use when creating, updating, or renaming a skill or command.
 version: 1.1.0
 ---

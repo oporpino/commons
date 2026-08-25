@@ -1,5 +1,5 @@
 ---
-name: infra
+name: br4zz4:infra
 description: Use when working on k8s manifests or .infra/.
 version: 3.0.0
 ---

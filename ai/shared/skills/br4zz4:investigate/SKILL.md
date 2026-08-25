@@ -1,5 +1,5 @@
 ---
-name: investigate
+name: br4zz4:investigate
 description: Use when asked to investigate or fix a bug.
 version: 2.0.0
 ---

@@ -1,5 +1,5 @@
 ---
-name: review-request
+name: br4zz4:review-request
 description: Use when completing tasks or before merging to verify work meets requirements.
 version: 1.0.0
 ---

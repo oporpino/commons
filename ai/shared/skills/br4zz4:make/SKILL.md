@@ -1,5 +1,5 @@
 ---
-name: make
+name: br4zz4:make
 description: Use when writing or modifying Makefile targets.
 version: 2.0.0
 ---

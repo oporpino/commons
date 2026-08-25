@@ -1,5 +1,5 @@
 ---
-name: skill:commit
+name: br4zz4:skill:commit
 description: Use this skill when the user asks to commit, create a commit, or stage and commit changes. Enforces atomic, single-line commits with no AI mentions.
 version: 1.0.0
 ---

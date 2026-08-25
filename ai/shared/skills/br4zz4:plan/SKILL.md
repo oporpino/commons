@@ -1,5 +1,5 @@
 ---
-name: plan
+name: br4zz4:plan
 description: Use when the user asks to plan something, or after commons:spec approval to create an implementation plan.
 version: 2.1.0
 ---

@@ -1,5 +1,5 @@
 ---
-name: skill:test
+name: br4zz4:skill:test
 description: Use this skill when the user asks to create or write tests for the files changed in the current diff.
 version: 1.0.0
 ---

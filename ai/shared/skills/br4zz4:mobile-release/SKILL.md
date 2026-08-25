@@ -1,5 +1,5 @@
 ---
-name: mobile-release
+name: br4zz4:mobile-release
 description: Use for Expo/EAS mobile release, native vs OTA.
 version: 1.0.0
 ---

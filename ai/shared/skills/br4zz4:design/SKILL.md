@@ -1,5 +1,5 @@
 ---
-name: skill:design
+name: br4zz4:skill:design
 description: Apply when writing or reviewing code. Enforces SOLID, DRY, KISS, and Clean Code principles. Work as a senior engineer — less code, more elegance, zero repetition.
 version: 1.0.0
 ---

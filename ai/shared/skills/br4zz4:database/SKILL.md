@@ -1,5 +1,5 @@
 ---
-name: database
+name: br4zz4:database
 description: Use when creating or reviewing database infrastructure (Aurora RDS, k8s secrets, terraform).
 version: 1.0.0
 ---

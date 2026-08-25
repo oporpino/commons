@@ -1,5 +1,5 @@
 ---
-name: ci
+name: br4zz4:ci
 description: Use when creating or reviewing GitHub Actions files.
 version: 1.0.0
 ---

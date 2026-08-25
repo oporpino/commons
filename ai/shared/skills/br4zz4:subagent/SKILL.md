@@ -1,5 +1,5 @@
 ---
-name: subagent
+name: br4zz4:subagent
 description: Use when executing implementation plans with independent tasks via subagents in the current session.
 version: 1.0.0
 ---

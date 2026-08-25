@@ -1,5 +1,5 @@
 ---
-name: setup-orchestration
+name: br4zz4:setup-orchestration
 description: Use when designing or changing project/bootstrap setup structure across commons and project scopes.
 version: 1.0.0
 ---

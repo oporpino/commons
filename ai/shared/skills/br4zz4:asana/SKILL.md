@@ -1,5 +1,5 @@
 ---
-name: asana
+name: br4zz4:asana
 description: Use when creating or updating Asana tasks, subtasks, or linking PRs to tasks.
 version: 1.0.0
 ---

@@ -1,5 +1,5 @@
 ---
-name: review-receive
+name: br4zz4:review-receive
 description: Use when receiving code review feedback, before implementing suggestions.
 version: 1.0.0
 ---

@@ -1,5 +1,5 @@
 ---
-name: tdd
+name: br4zz4:tdd
 description: Use when implementing any feature or bugfix, before writing implementation code.
 version: 1.0.0
 ---

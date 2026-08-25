@@ -1,5 +1,5 @@
 ---
-name: docs
+name: br4zz4:docs
 description: Use when documenting business rules or learnings.
 version: 2.2.0
 ---

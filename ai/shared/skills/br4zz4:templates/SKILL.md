@@ -1,5 +1,5 @@
 ---
-name: templates
+name: br4zz4:templates
 description: Use when a required project file may be missing.
 version: 1.0.0
 ---

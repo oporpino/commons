@@ -1,5 +1,5 @@
 ---
-name: pr
+name: br4zz4:pr
 description: Use when creating a pull request.
 version: 1.1.0
 ---

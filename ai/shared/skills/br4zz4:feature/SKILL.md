@@ -1,5 +1,5 @@
 ---
-name: feature
+name: br4zz4:feature
 description: Use when creating or updating user stories and Gherkin acceptance criteria in .project/docs/features/.
 version: 2.0.0
 ---

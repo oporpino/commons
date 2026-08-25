@@ -1,5 +1,5 @@
 ---
-name: patterns
+name: br4zz4:patterns
 description: Apply when writing or reviewing any code.
 version: 1.4.0
 ---

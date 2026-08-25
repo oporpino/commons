@@ -1,5 +1,5 @@
 ---
-name: spec
+name: br4zz4:spec
 description: Use when the user asks to plan or document a change.
 version: 2.1.0
 ---

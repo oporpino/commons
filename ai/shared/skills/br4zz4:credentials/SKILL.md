@@ -1,5 +1,5 @@
 ---
-name: credentials
+name: br4zz4:credentials
 description: Use when handling Rails credentials or ward secrets.
 version: 3.0.0
 ---

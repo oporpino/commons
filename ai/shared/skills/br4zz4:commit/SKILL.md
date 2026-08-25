@@ -1,5 +1,5 @@
 ---
-name: commit
+name: br4zz4:commit
 description: Use when the user asks to commit changes.
 version: 1.0.0
 ---

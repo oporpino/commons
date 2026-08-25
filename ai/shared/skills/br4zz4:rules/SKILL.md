@@ -1,5 +1,5 @@
 ---
-name: skill:rules
+name: br4zz4:skill:rules
 description: Use this skill when the user asks to load, review, or apply project rules.
 version: 1.0.0
 ---

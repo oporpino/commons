@@ -1,5 +1,5 @@
 ---
-name: change-multi-repo
+name: br4zz4:change-multi-repo
 description: Use when applying structural changes across multiple repos.
 version: 1.0.0
 ---

@@ -1,5 +1,5 @@
 ---
-name: seed
+name: br4zz4:seed
 description: Use when creating or reviewing seeds or factories.
 version: 1.0.0
 ---

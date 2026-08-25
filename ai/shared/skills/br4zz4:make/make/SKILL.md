@@ -1,5 +1,5 @@
 ---
-name: skill:make
+name: br4zz4:skill:make
 description: Use this skill when writing or modifying Makefile targets or scripts. Enforces conventions for target simplicity, folder structure, and where to place new files.
 version: 1.1.0
 ---

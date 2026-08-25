@@ -1,5 +1,5 @@
 ---
-name: structure
+name: br4zz4:structure
 description: Use to understand WeHive project structure.
 version: 2.0.0
 ---

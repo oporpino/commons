@@ -1,5 +1,5 @@
 ---
-name: check
+name: br4zz4:check
 description: Use when asked to review or check code against project rules.
 version: 1.0.0
 ---

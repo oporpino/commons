@@ -1,5 +1,5 @@
 ---
-name: no-digital-ocean
+name: br4zz4:no-digital-ocean
 description: Use when reviewing or touching any infra, CI, or config file.
 version: 1.0.0
 ---

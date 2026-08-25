@@ -1,5 +1,5 @@
 ---
-name: find-in-root
+name: br4zz4:find-in-root
 description: Use when searching for files across all wehive projects.
 version: 1.0.0
 ---

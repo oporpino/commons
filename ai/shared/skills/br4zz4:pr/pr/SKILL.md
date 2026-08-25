@@ -1,5 +1,5 @@
 ---
-name: skill:pr
+name: br4zz4:skill:pr
 description: Use this skill when the user asks to create a pull request, open a PR, or submit changes for review.
 version: 1.0.0
 ---

@@ -1,5 +1,5 @@
 ---
-name: docker
+name: br4zz4:docker
 description: Use when creating or reviewing Docker files.
 version: 2.0.0
 ---

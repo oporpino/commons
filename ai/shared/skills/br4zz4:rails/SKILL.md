@@ -1,5 +1,5 @@
 ---
-name: rails
+name: br4zz4:rails
 description: Use when writing or reviewing Rails code.
 version: 1.4.0
 ---
