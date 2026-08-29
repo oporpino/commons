@@ -6,7 +6,7 @@ version: 1.0.0
 
 # commons:no-digital-ocean
 
-> **TLDR**: WeHive migrated fully to AWS. Digital Ocean must not appear anywhere.
+> **TLDR**: br4zz4 migrated fully to AWS. Digital Ocean must not appear anywhere.
 
 ## Rule
 
@@ -35,11 +35,11 @@ Replace with the AWS equivalent:
 
 | Digital Ocean | AWS replacement |
 |---|---|
-| `registry.digitalocean.com/wehive` | AWS ECR endpoint (ask the user for the correct URL if unknown) |
+| `registry.digitalocean.com/br4zz4` | AWS ECR endpoint (ask the user for the correct URL if unknown) |
 | `docr_token` | ECR auth via IAM role / `AWS_ACCESS_KEY_ID` |
 | `digitalocean_access_token` | Remove — no longer needed |
 | `DO_TOKEN` | Remove — no longer needed |
-| `CONTAINER_REGISTRY=registry.digitalocean.com/wehive` | `CONTAINER_REGISTRY=<ecr-url>` |
+| `CONTAINER_REGISTRY=registry.digitalocean.com/br4zz4` | `CONTAINER_REGISTRY=<ecr-url>` |
 | `digitalocean_database_cluster` | `aws_rds_cluster` (see `commons:database`) |
 | `digitalocean_spaces` | `aws_s3_bucket` |
 
@@ -50,4 +50,4 @@ Replace with the AWS equivalent:
 
 ## Known remaining reference
 
-`.env.example` in `citrg-api` still has `CONTAINER_REGISTRY=registry.digitalocean.com/wehive` — needs the correct ECR URL to be replaced.
+`.env.example` in `citrg-api` still has `CONTAINER_REGISTRY=registry.digitalocean.com/br4zz4` — needs the correct ECR URL to be replaced.

@@ -37,7 +37,7 @@ Projects and the `infrastructure` repo are strictly isolated:
     ├── main.tf              # Locals: environment, namespace, domain, labels
     ├── data.tf              # Providers (AWS, Kubernetes, Cloudflare)
     ├── versions.tf          # Provider versions
-    ├── backend.tf           # S3 backend (wehive-terraform-states)
+    ├── backend.tf           # S3 backend (br4zz4-terraform-states)
     ├── database.tf          # Aurora Serverless v2 — see commons:database
     ├── secrets.tf           # kubernetes_secret (URLs from RDS outputs + app secrets)
     ├── namespace.tf         # kubernetes_namespace
@@ -96,7 +96,7 @@ State lives in AWS S3:
 ```hcl
 terraform {
   backend "s3" {
-    bucket  = "wehive-terraform-states"
+    bucket  = "br4zz4-terraform-states"
     key     = "stacks/<app>/terraform.tfstate"
     region  = "us-east-1"
     encrypt = true
@@ -330,24 +330,24 @@ Before running any make target, ensure the Makefile includes the terraform targe
 include $(COMMONS_DIR)/make/shared/terraform.mk
 ```
 
-## Inspection (wehive wrapper)
+## Inspection (br4zz4 wrapper)
 
 ```bash
-wehive terraform state list
-wehive terraform state show <resource>
-wehive terraform output
-wehive terraform console
+br4zz4 terraform state list
+br4zz4 terraform state show <resource>
+br4zz4 terraform output
+br4zz4 terraform console
 ```
 
-> Always use `wehive terraform` instead of `terraform` directly. The wrapper loads SOPS secrets and AWS credentials from `secrets/<env>.enc.yml` before running terraform.
+> Always use `br4zz4 terraform` instead of `terraform` directly. The wrapper loads SOPS secrets and AWS credentials from `secrets/<env>.enc.yml` before running terraform.
 
 ## Bootstrap requirement
 
-Before any infra commands work, the machine must have `wehive` installed:
+Before any infra commands work, the machine must have `br4zz4` installed:
 ```bash
 make bootstrap
 ```
-This installs the `wehive` CLI which wraps terraform with secret loading.
+This installs the `br4zz4` CLI which wraps terraform with secret loading.
 
 ## Secrets management (SOPS + age)
 
@@ -409,7 +409,7 @@ Use `skip_requesting_account_id = true` (not the deprecated `force_path_style`):
 ```hcl
 terraform {
   backend "s3" {
-    bucket  = "wehive-terraform-states"
+    bucket  = "br4zz4-terraform-states"
     key     = "<project>/terraform.tfstate"
     region  = "us-east-1"
     encrypt = true
@@ -436,7 +436,7 @@ aws eks update-kubeconfig \
   --name shared-kubernetes \
   --region us-east-1 \
   --alias devops \
-  --profile wehive-shared
+  --profile br4zz4-shared
 ```
 
 **The token also expires mid-apply.** When one `terraform apply` both provisions a
@@ -476,7 +476,7 @@ provider "rabbitmq" {
 2. SOPS secrets from `secrets/<env>.enc.yml` — static secrets
 3. Dynamic terraform resource attributes — computed at apply time
 
-The `wehive` wrapper loads SOPS first, then `TF_VAR_*` from the environment override them if present.
+The `br4zz4` wrapper loads SOPS first, then `TF_VAR_*` from the environment override them if present.
 
 ## Stateful resources (always protect)
 
@@ -529,8 +529,8 @@ Source of truth: `config/access.yml` — never edit terraform locals directly.
 
 | kubectl context | IAM role | Staging | Production |
 |---|---|---|---|
-| `wehive-<alias>-<app>--staging` | `eks-dev-<alias>` | full (admin) | — |
-| `wehive-<alias>-<app>--production` | `eks-dev-<alias>` | — | read-only (member) or full+exec (owner) |
+| `br4zz4-<alias>-<app>--staging` | `eks-dev-<alias>` | full (admin) | — |
+| `br4zz4-<alias>-<app>--production` | `eks-dev-<alias>` | — | read-only (member) or full+exec (owner) |
 | `devops` | TerraformRole | full cluster | full cluster |
 
 One context per namespace. Tokens expire in 15 minutes and auto-renew via `aws eks get-token`. Kubernetes RBAC groups (`developer-<project>-member`, `developer-<project>-owner`) control what each role can do inside each namespace.
@@ -575,7 +575,7 @@ After the apply, affected developers run `make k8s.init` to get new contexts.
 ### Developer setup
 
 Prerequisites:
-- `aws` CLI with profile `wehive-shared` configured (`~/.aws/config`) — assumes `TerraformRole` in the shared account (616795656532)
+- `aws` CLI with profile `br4zz4-shared` configured (`~/.aws/config`) — assumes `TerraformRole` in the shared account (616795656532)
 - `gh` CLI authenticated (`gh auth login`) — fetches `config/access.yml` from the infrastructure repo
 - `yq` and `jq` — parse the access config and generate tfvars
 
@@ -584,15 +584,15 @@ make k8s.init
 ```
 
 Creates one kubectl context per namespace the user has access to:
-- `wehive-<alias>-<app>--staging` (green in summary — full access)
-- `wehive-<alias>-<app>--production` (yellow in summary — readonly or exec depending on member/owner)
+- `br4zz4-<alias>-<app>--staging` (green in summary — full access)
+- `br4zz4-<alias>-<app>--production` (yellow in summary — readonly or exec depending on member/owner)
 - `devops` (red — only for devops owners)
 
 **Devops impersonation** — to test another user's access on your machine:
 ```bash
 make k8s.init K8S_USER=matheus   # requires caller to be devops owner
 ```
-Configures `wehive-matheus-*` contexts without touching your own `wehive-<alias>-*` contexts.
+Configures `br4zz4-matheus-*` contexts without touching your own `br4zz4-<alias>-*` contexts.
 
 **After adding a new project or changing memberships** in `access.yml` → apply terraform → run `make k8s.init` to refresh contexts.
 
@@ -685,7 +685,7 @@ In k8s manifests, use `web` as the container/app name and resource name for the 
 - Namespace (`<app>--<env>`)
 - Ingress `metadata.name` (e.g. `gateway-proxy`, `gateway-admin`)
 - Ingress hostnames and TLS secret names (e.g. `gateway-proxy-tls`)
-- Image name (`616795656532.dkr.ecr.us-east-1.amazonaws.com/wehive/gateway`)
+- Image name (`616795656532.dkr.ecr.us-east-1.amazonaws.com/br4zz4/gateway`)
 - Kubernetes secret name (`gateway-secrets`)
 - `nodeSelector` / `tolerations` with `workload: <app>` — these are node labels, not pod labels
 - Grafana dashboard metric queries (application-level labels)

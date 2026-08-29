@@ -13,7 +13,7 @@ version: 2.2.0
 Antes de escrever qualquer doc, leia os docs existentes para entender convenções e evitar duplicação:
 
 - **Docs do projeto**: `.project/docs/` no diretório atual
-- **Docs do commons**: `.project/docs/` no repo commons (`ibft-corp/commons`) — guides, architecture e patterns que valem para todos os projetos WeHive
+- **Docs do commons**: `.project/docs/` no repo commons (`ibft-corp/commons`) — guides, architecture e patterns que valem para todos os projetos br4zz4
 
 ---
 

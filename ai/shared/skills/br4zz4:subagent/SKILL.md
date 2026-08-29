@@ -127,7 +127,7 @@ Avalie em duas dimensões:
 **1. Spec compliance:** a implementação entrega tudo que a task pede? Nada além?
 - ✅ Spec: OK | ❌ Spec: <o que falta ou sobra>
 
-**2. Code quality:** o código segue os padrões wehive?
+**2. Code quality:** o código segue os padrões br4zz4?
 - SOLID, DRY, KISS aplicados?
 - Testes testam comportamento real (não mocks)?
 - Commits atômicos, uma linha, max 60 chars?
@@ -227,7 +227,7 @@ Após review final limpo, invoque `commons:finish`.
 
 ### Isolamento por worktree
 
-Cada agente paralelo trabalha no **seu próprio worktree**, sempre sob `$HOME/workspace/.worktrees/<project>/<task>/` — nunca dentro do repo ou da pasta do projeto (regra de worktree do wehive).
+Cada agente paralelo trabalha no **seu próprio worktree**, sempre sob `$HOME/workspace/.worktrees/<project>/<task>/` — nunca dentro do repo ou da pasta do projeto (regra de worktree do br4zz4).
 
 O worktree parte **da branch de trabalho atual** (onde o plano está sendo executado), não de `main` — a menos que o usuário peça uma base específica:
 
@@ -306,7 +306,7 @@ Após compaction de contexto: leia o ledger + `git log` para se orientar. Não r
 
 ---
 
-## Regras wehive preservadas
+## Regras br4zz4 preservadas
 
 - Sequencial usa branch normal (`git checkout -b`); paralelo usa worktree em `$HOME/workspace/.worktrees/<project>/`, sempre removido ao integrar
 - Commits: uma linha, max 60 chars, sem IA

@@ -105,7 +105,7 @@ Some decisions are understood better seen than read. When a question is genuinel
 .commons/shell/tasks/visual/start-server.sh --project-dir "$HOME/workspace/.worktrees" --open
 ```
 
-It returns JSON with `url`, `port`, `screen_dir`, and `state_dir`. Save `screen_dir` and `state_dir`. Give the user the **complete** `url` (it carries a session key — never strip the query string). Point `--project-dir` at a path outside any repo (e.g. `$HOME/workspace/.worktrees`) so mockups never pollute the project — the server writes under `<project-dir>/.wehive-visual/`.
+It returns JSON with `url`, `port`, `screen_dir`, and `state_dir`. Save `screen_dir` and `state_dir`. Give the user the **complete** `url` (it carries a session key — never strip the query string). Point `--project-dir` at a path outside any repo (e.g. `$HOME/workspace/.worktrees`) so mockups never pollute the project — the server writes under `<project-dir>/.br4zz4-visual/`.
 
 **The loop:**
 

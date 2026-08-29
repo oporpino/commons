@@ -135,7 +135,7 @@ serie: X/N — <context label>
 
 ## Default project
 
-All tasks must be added to the **Backlog - WeHive** project:
+All tasks must be added to the **Backlog - br4zz4** project:
 
 - **Project GID**: `1214395788660507`
 - **Workspace GID**: `1208104128529800`

@@ -193,7 +193,7 @@ Suggest once; don't insist.
 Apply `commons:docs` for this phase.
 
 - Create a learning file in `.project/docs/learnings/` following the learning format defined in `commons:docs`
-- If the learning reveals a general pattern applicable to other WeHive projects, also create or update `.commons/ai/shared/rules/<topic>.md`
+- If the learning reveals a general pattern applicable to other br4zz4 projects, also create or update `.commons/ai/shared/rules/<topic>.md`
 
 ---
 

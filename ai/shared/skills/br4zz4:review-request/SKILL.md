@@ -68,7 +68,7 @@ Review for:
 1. Correctness — does the implementation match the requirements?
 2. Test quality — are tests meaningful? Do they test behavior, not mocks?
 3. Code quality — SOLID, DRY, KISS applied? No unnecessary complexity?
-4. Wehive rules — commits atomic? No comments explaining what the code does?
+4. br4zz4 rules — commits atomic? No comments explaining what the code does?
 5. Missing coverage — any branch or edge case not tested?
 
 ## Output format

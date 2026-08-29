@@ -6,7 +6,7 @@ version: 1.0.0
 
 # commons:setup-orchestration
 
-Use this skill when working on the setup/bootstrap layout for WeHive projects.
+Use this skill when working on the setup/bootstrap layout for br4zz4 projects.
 
 ## Canonical split
 

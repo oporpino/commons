@@ -46,7 +46,7 @@ Also activate **proactively** when:
 - Workarounds for a single project's tech debt
 - Experimental or unstable patterns not yet proven across projects
 
-If in doubt: would this make sense in any wehive project, regardless of stack or domain? If yes → commons.
+If in doubt: would this make sense in any br4zz4 project, regardless of stack or domain? If yes → commons.
 
 ## Architecture
 
@@ -79,7 +79,7 @@ Skills and commands live in a provider-neutral shared directory:
 ```
 ai/
   .claude-plugin/
-    marketplace.json      ← registers "wehive" marketplace, source: "./shared"
+    marketplace.json      ← registers "br4zz4" marketplace, source: "./shared"
   .agents/
     plugins/
       marketplace.json    ← same for codex, path: "./shared"
@@ -93,7 +93,7 @@ ai/
     skills/  commands/  rules/    ← REAL directories, never symlinks
 ```
 
-Claude installs the plugin via `claude plugin install commons@wehive`.
+Claude installs the plugin via `claude plugin install commons@br4zz4`.
 Codex registers the local marketplace with `codex plugin marketplace add`.
 Codex CLI installs the plugin under `~/.codex/plugins/commons`.
 It also receives one compatibility symlink at `~/.codex/skills/commons` because the prompt-visible loader in Codex CLI 0.128.0 reads that directory.
@@ -107,7 +107,7 @@ is reserved for shared specs and AI mirrors.
 ### Distribution — never put a symlink inside the plugin root
 
 `claude plugin install` copies the plugin tree into
-`~/.claude/plugins/cache/wehive/commons/<version>/` and **does not follow symlinks**.
+`~/.claude/plugins/cache/br4zz4/commons/<version>/` and **does not follow symlinks**.
 Any symlinked directory inside the plugin root is silently skipped — no error, no warning,
 just missing skills.
 
@@ -132,15 +132,15 @@ making the plugin root itself the shared directory, as it is now — never by sy
 After changing `ai/shared/`, a plain reinstall is enough:
 
 ```bash
-claude plugin uninstall commons@wehive
-claude plugin install commons@wehive
+claude plugin uninstall commons@br4zz4
+claude plugin install commons@br4zz4
 ```
 
 Then **verify**, do not assume:
 
 ```bash
 diff -r $CACHE/skills $SRC/skills        # must be empty
-claude plugin details commons@wehive     # skill count must match ls $SRC/skills | wc -l
+claude plugin details commons@br4zz4     # skill count must match ls $SRC/skills | wc -l
 ```
 
 The decisive check is a **new session or child agent** reporting the skills it actually
@@ -192,7 +192,7 @@ When a `tasks/*.sh` script mixes reusable mechanism with project-specific values
   derive conventions from it (namespace `<app-dashed>--<env>`, ward path
   `<app>.<env>.TF_VAR_<db>_db_*`).
 - **Thin local wrapper → `<module>/tasks/<domain>/<name>.sh`.** It resolves
-  `COMMONS_DIR` (exported by the shell profile; fall back to the wehive root's
+  `COMMONS_DIR` (exported by the shell profile; fall back to the br4zz4 root's
   `.commons`) and calls the commons script with the app's values, keeping the
   positional interface that Make targets already use. Example: the local
   `tasks/db/tunnel.sh [env] [port]` just calls the commons `db-tunnel.sh --app
@@ -216,8 +216,8 @@ project would reuse it.
 
 **The directory name governs the loaded skill name.** The plugin prefix (`commons:`)
 comes from the plugin, and the rest comes from the directory — the `name:` field in
-frontmatter is **not** what the loader reads. A directory named `wehive:docs` loads as
-`commons:wehive:docs`, not `commons:docs`. Never put a prefix in the directory name.
+frontmatter is **not** what the loader reads. A directory named `br4zz4:docs` loads as
+`commons:br4zz4:docs`, not `commons:docs`. Never put a prefix in the directory name.
 
 - `description` must be **60 characters or less**
 - Write in English

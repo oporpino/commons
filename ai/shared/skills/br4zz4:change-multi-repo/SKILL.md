@@ -6,7 +6,7 @@ version: 1.0.0
 
 # commons:change-multi-repo
 
-> **TLDR**: Apply a single structural change consistently across multiple WeHive repos, ensuring CI stays green, no leftovers remain, and everything lands on main before closing.
+> **TLDR**: Apply a single structural change consistently across multiple br4zz4 repos, ensuring CI stays green, no leftovers remain, and everything lands on main before closing.
 
 ## When to activate
 

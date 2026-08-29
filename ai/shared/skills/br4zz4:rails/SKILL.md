@@ -465,7 +465,7 @@ Reactions go through the relay as usual. Outbound webhooks (we POST to their end
 
 ## Environments (k8s)
 
-WeHive Rails projects use three environments: `development`, `staging`, `production`.
+br4zz4 Rails projects use three environments: `development`, `staging`, `production`.
 
 **`staging`** is a first-class Rails environment — not an alias for production. Create `config/environments/staging.rb` explicitly:
 

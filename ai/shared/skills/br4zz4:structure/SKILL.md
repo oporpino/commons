@@ -1,17 +1,17 @@
 ---
 name: br4zz4:structure
-description: Use to understand WeHive project structure.
+description: Use to understand br4zz4 project structure.
 version: 2.0.0
 ---
 
 # commons:structure
 
-> **TLDR**: All projects live under `wehive/`. Each project symlinks `commons` as `.commons` and follows a strict layout. Run scripts go in `run/`. Tasks go in `tasks/` (project-specific) or `.commons/shell/tasks/` (shared). Shared bins live in `.commons/bin/`; project `bin/` holds only stack-native binstubs.
+> **TLDR**: All projects live under `br4zz4/`. Each project symlinks `commons` as `.commons` and follows a strict layout. Run scripts go in `run/`. Tasks go in `tasks/` (project-specific) or `.commons/shell/tasks/` (shared). Shared bins live in `.commons/bin/`; project `bin/` holds only stack-native binstubs.
 
 ## Workspace layout
 
 ```
-wehive/
+br4zz4/
 ├── commons/                   # Shared tooling repo
 │   ├── shell/tasks/           # Shared shell tasks (reused across projects)
 │   ├── make/                  # Shared makefiles (core/, stacks/, shared/)
@@ -29,7 +29,7 @@ wehive/
 
 ```
 <project>/
-├── .commons -> /path/to/wehive/commons   # Symlink — never a git submodule
+├── .commons -> /path/to/br4zz4/commons   # Symlink — never a git submodule
 ├── compose.yml                            # Extends .commons/docker/<stack>/compose.dev.yml
 ├── Makefile                               # Includes .commons/make/<stack>.makefile
 ├── .project/
@@ -43,7 +43,7 @@ wehive/
 │   └── terraform/
 ├── tasks/                                 # Project-specific shell tasks
 │   └── <domain>/<name>.sh
-├── run/                                   # WeHive run scripts (server, test, lint, ...)
+├── run/                                   # br4zz4 run scripts (server, test, lint, ...)
 │   └── <name>
 └── bin/                                   # Stack-native binstubs only (rails, rake, ...)
 ```
@@ -91,7 +91,7 @@ File names are English `snake_case`; document content is Portuguese.
 Each project has `.commons` as a **symlink** pointing to the `commons` repo:
 
 ```
-.commons -> /Users/<user>/workspace/wehive/commons
+.commons -> /Users/<user>/workspace/br4zz4/commons
 ```
 
 - Created/refreshed by: `make commons.projects.symlink` (run from commons)
@@ -147,7 +147,7 @@ Project customizations go in `.project/make/overrides.mk` (included automaticall
 
 | Location | Purpose | Extension |
 |---|---|---|
-| `run/<name>` | WeHive run scripts — the project command surface (`server`, `test`, `lint`, ...). Exposed as `make run.<name>`. | none |
+| `run/<name>` | br4zz4 run scripts — the project command surface (`server`, `test`, `lint`, ...). Exposed as `make run.<name>`. | none |
 | `tasks/<domain>/<name>.sh` | Project-specific tasks. Only meaningful inside this repo. | `.sh` |
 | `bin/` | Stack-native binstubs only (`rails`, `rake`, `manage.py`, ...). | none |
 | `.commons/shell/tasks/<domain>/<name>.sh` | Shared tasks reused across multiple projects. | `.sh` |
@@ -229,7 +229,7 @@ terraform/              # Terraform secret management
 environment/init/
   tools.sh              # Verifica ferramentas da máquina
   asdf.sh               # Instala asdf + versões de linguagens
-  wehive.sh             # Instala wehive CLI globalmente
+  br4zz4.sh             # Instala br4zz4 CLI globalmente
 ```
 
 ## `run/` — container entrypoints
