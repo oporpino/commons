@@ -20,20 +20,7 @@ _runner = $(COMMONS_DIR)/shell/helpers/devmode/runner.sh
 
 .DEFAULT_GOAL := help
 
-<<<<<<< HEAD
 include $(COMMONS_DIR)/make/core/commands.mk
-||||||| parent of d59c1d0 (feat: add dev mode start dispatcher)
-# core includes
-include $(COMMONS_DIR)/make/core/_contract.mk
-include $(COMMONS_DIR)/make/core/_container.mk
-include $(COMMONS_DIR)/make/core/_shortcuts.mk
-=======
-# core includes
-include $(COMMONS_DIR)/make/core/_contract.mk
-include $(COMMONS_DIR)/make/core/_container.mk
-include $(COMMONS_DIR)/make/core/start.mk
-include $(COMMONS_DIR)/make/core/_shortcuts.mk
->>>>>>> d59c1d0 (feat: add dev mode start dispatcher)
 include $(COMMONS_DIR)/make/core/help.mk
 include $(COMMONS_DIR)/make/core/release.mk
 include $(COMMONS_DIR)/make/core/commons.mk
